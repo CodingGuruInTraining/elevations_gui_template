@@ -16,6 +16,7 @@ public class GUI extends JFrame {
     private JLabel placeLabel;
     private JLabel elevationLabel;
     private JButton submitButton;
+    private JButton deleteButton;
 
     private JList<Elevation> allElevationsList;
     private JScrollPane allElevationsListScrollPane;
@@ -84,9 +85,24 @@ public class GUI extends JFrame {
         });
 
 
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Elevation elevation = allElevationsList.getSelectedValue();
+                if (elevation == null) {
+                    JOptionPane.showMessageDialog(GUI.this, "Please select an elevation to delete");
+                } else {
+                    controller.delete(elevation);
+                    ArrayList<Elevation> elevations = controller.getAllData();
+                    setListData(elevations);
+                }
+            }
+        });
 
 
     }
+
+
 
     //This does the same as the IntelliJ GUI designer.
     private void addComponents() {
@@ -97,6 +113,7 @@ public class GUI extends JFrame {
         enterElevation = new JTextField();
         placeLabel = new JLabel("Place name");
         elevationLabel = new JLabel("Elevation in meters");
+        deleteButton = new JButton("Delete");
 
         //and the JList, add it to a JScrollPane
         allElevationsList = new JList<Elevation>();
@@ -116,6 +133,7 @@ public class GUI extends JFrame {
         mainPanel.add(elevationLabel);
         mainPanel.add(enterElevation);
         mainPanel.add(submitButton);
+        mainPanel.add(deleteButton);
         mainPanel.add(allElevationsListScrollPane);
 
 
